@@ -1,8 +1,6 @@
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Mail, Phone, MapPin, Send } from 'lucide-react'
+import { Card } from '@/components/ui/card'
+import { Mail, Phone, MapPin } from 'lucide-react'
+import { ContactForm } from '@/components/forms/ContactForm'
 
 export default function ContactPage() {
   return (
@@ -57,29 +55,7 @@ export default function ContactPage() {
           {/* Contact Form */}
           <Card className="border-none shadow-2xl bg-muted/30 p-8 lg:p-12">
             <h3 className="text-2xl font-bold mb-8">Send us a Message</h3>
-            <form className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold">Full Name</label>
-                  <Input className="h-12 rounded-xl" placeholder="John Doe" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold">Email Address</label>
-                  <Input className="h-12 rounded-xl" placeholder="john@example.com" />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-bold">Subject</label>
-                <Input className="h-12 rounded-xl" placeholder="Query about Panchakarma" />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-bold">Message</label>
-                <Textarea className="min-h-[150px] rounded-xl" placeholder="How can we help you?" />
-              </div>
-              <Button size="lg" className="w-full rounded-xl font-bold h-14">
-                <Send className="mr-2 h-5 w-5" /> Send Message
-              </Button>
-            </form>
+            <ContactForm />
           </Card>
         </div>
       </div>

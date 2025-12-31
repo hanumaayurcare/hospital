@@ -33,12 +33,22 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (
-    !user &&
-    !request.nextUrl.pathname.startsWith('/auth') &&
-    request.nextUrl.pathname !== '/'
-  ) {
-    // no user, potentially respond by redirecting the user to the login page
+  // Define paths that require authentication
+  const portalRoutes = [
+    '/dashboard',
+    '/admin',
+    '/doctor',
+    '/appointments',
+    '/prescriptions',
+    '/panchakarma-sessions',
+    '/video-consultation',
+  ]
+
+  const isProtectedRoute = portalRoutes.some(route => 
+    request.nextUrl.pathname.startsWith(route)
+  )
+
+  if (!user && isProtectedRoute) {
     const url = request.nextUrl.clone()
     url.pathname = '/auth/login'
     return NextResponse.redirect(url)

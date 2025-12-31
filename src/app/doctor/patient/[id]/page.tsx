@@ -1,6 +1,6 @@
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { ChevronLeft, FileText, History, Activity, AlertCircle, Plus, Search } from 'lucide-react'
+import { ChevronLeft, ChevronRight, FileText, History, Activity, AlertCircle, Search } from 'lucide-react'
 import Link from 'next/link'
 
 export default async function DoctorPatientViewPage({ params }: { params: Promise<{ id: string }> }) {

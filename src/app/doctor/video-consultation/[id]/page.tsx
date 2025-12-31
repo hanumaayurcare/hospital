@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { Video, Mic, MicOff, VideoOff, PhoneOff, Settings, Users, MessageSquare } from 'lucide-react'
+import { Card, CardContent,CardHeader } from '@/components/ui/card'
+import { Video, Mic,  PhoneOff, Settings, Users, MessageSquare } from 'lucide-react'
 import Link from 'next/link'
 
 export default function MeetingRoomPage() {

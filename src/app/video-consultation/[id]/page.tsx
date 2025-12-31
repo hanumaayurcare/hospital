@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { Video, Mic, MicOff, VideoOff, PhoneOff, Settings, Users, MessageSquare } from 'lucide-react'
+import { Card, CardContent,CardHeader } from '@/components/ui/card'
+import { Video, Mic, PhoneOff, Settings, Users, MessageSquare } from 'lucide-react'
 import Link from 'next/link'
 
 export default function MeetingRoomPage() {
@@ -12,7 +12,7 @@ export default function MeetingRoomPage() {
           <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center font-bold">H</div>
           <div>
             <h1 className="text-lg font-bold">Video Consultation</h1>
-            <p className="text-xs text-zinc-400">Dr. Hanumaan Singh & Arjun Sharma</p>
+            <p className="text-xs text-zinc-400">Dr. Kumar Srinivas Chowdury</p>
           </div>
         </div>
         <div className="flex items-center gap-4">

@@ -2,20 +2,20 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
-import { signup, signInWithGoogle } from '../login/actions'
+import { login, signInWithGoogle, resendVerification } from '../actions'
 
-export default function RegisterPage({
+export default function LoginPage({
   searchParams,
 }: {
-  searchParams: { message: string, error: string }
+  searchParams: { message: string, error: string, email?: string }
 }) {
   return (
     <div className="min-h-[80vh] flex items-center justify-center bg-muted/30 py-12 px-4 sm:px-6 lg:px-8">
       <Card className="max-w-md w-full border-none shadow-2xl rounded-3xl overflow-hidden pt-0 text-center">
         <CardHeader className="bg-primary text-white p-10">
-          <CardTitle className="text-3xl font-bold">Join Hanuma</CardTitle>
+          <CardTitle className="text-3xl font-bold">Welcome Back</CardTitle>
           <CardDescription className="text-primary-foreground/80 mt-2">
-            Experience authentic Ayurvedic care.
+            Access your medical records and appointments securely.
           </CardDescription>
         </CardHeader>
         <CardContent className="p-10 space-y-6">
@@ -25,35 +25,45 @@ export default function RegisterPage({
             </div>
           )}
           {searchParams?.error && (
-            <div className="p-4 rounded-xl bg-red-50 text-red-700 text-sm font-bold border border-red-100 italic">
-              {searchParams.error}
+            <div className="p-4 rounded-xl bg-red-50 text-red-700 text-sm font-bold border border-red-100 italic space-y-2">
+              <p>{searchParams.error}</p>
+              {searchParams.error.includes('Email not confirmed') && searchParams.email && (
+                <form action={resendVerification}>
+                  <input type="hidden" name="email" value={searchParams.email} />
+                  <Button 
+                    type="submit"
+                    variant="link" 
+                    className="p-0 h-auto text-red-800 underline font-bold"
+                  >
+                    Resend verification email?
+                  </Button>
+                </form>
+              )}
             </div>
           )}
           
-          <form className="space-y-6 text-left" action={signup}>
-            <div className="space-y-2">
-              <label className="text-sm font-bold px-1">Full Name</label>
-              <Input name="full_name" className="h-12 rounded-xl" type="text" placeholder="Arjun Sharma" required />
-            </div>
+          <form className="space-y-6 text-left" action={login}>
             <div className="space-y-2">
               <label className="text-sm font-bold px-1">Email Address</label>
-              <Input name="email" className="h-12 rounded-xl" type="email" placeholder="name@example.com" required />
+              <Input name="email" className="h-12 rounded-xl" type="email" placeholder="name@example.com" defaultValue={searchParams.email || ''} required />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-bold px-1">Password</label>
+              <div className="flex justify-between px-1">
+                <label className="text-sm font-bold">Password</label>
+                <Link href="/auth/forgot-password" className="text-xs text-primary font-bold hover:underline">Forgot Password?</Link>
+              </div>
               <Input name="password" className="h-12 rounded-xl" type="password" placeholder="••••••••" required />
             </div>
-            <Button className="w-full h-14 rounded-xl font-bold text-lg shadow-lg shadow-primary/20 bg-accent hover:bg-accent/90">Create Account</Button>
+            <Button className="w-full h-14 rounded-xl font-bold text-lg shadow-lg shadow-primary/20">Sign In</Button>
           </form>
           
           <div className="relative">
             <div className="absolute inset-0 flex items-center"><span className="w-full border-t"></span></div>
-            <div className="relative flex justify-center text-[10px] uppercase tracking-widest"><span className="bg-white px-4 text-muted-foreground font-bold">Or join with</span></div>
+            <div className="relative flex justify-center text-[10px] uppercase tracking-widest"><span className="bg-white px-4 text-muted-foreground font-bold">Or continue with</span></div>
           </div>
           
-          <form>
+          <form action={signInWithGoogle}>
             <Button 
-              formAction={signInWithGoogle} 
               variant="outline" 
               className="w-full h-14 rounded-xl font-bold border-2 flex gap-3 hover:bg-muted/50"
             >
@@ -63,13 +73,13 @@ export default function RegisterPage({
                 <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
                 <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
               </svg>
-              Google Join
+              Google Login
             </Button>
           </form>
         </CardContent>
         <CardFooter className="p-10 pt-0 text-center justify-center border-t border-muted/50 bg-muted/10">
           <p className="text-sm text-muted-foreground font-medium italic">
-            Already have an account? <Link href="/login" className="text-primary font-bold hover:underline not-italic">Sign In</Link>
+            Don&apos;t have an account? <Link href="/auth/register" className="text-primary font-bold hover:underline not-italic">Create Account</Link>
           </p>
         </CardFooter>
       </Card>

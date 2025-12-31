@@ -15,7 +15,7 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
           supabaseResponse = NextResponse.next({
             request,
           })
@@ -35,39 +35,43 @@ export async function updateSession(request: NextRequest) {
 
   if (
     !user &&
-    !request.nextUrl.pathname.startsWith('/login') &&
     !request.nextUrl.pathname.startsWith('/auth') &&
     request.nextUrl.pathname !== '/'
   ) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone()
-    url.pathname = '/login'
+    url.pathname = '/auth/login'
     return NextResponse.redirect(url)
   }
 
   // Role-based access control (Basic example)
   if (user) {
-    // Fetch profile role
-    const { data: profile } = await supabase
-      .from('profiles')
+    // Fetch profile role from context_memberships
+    const { data: membership } = await supabase
+      .from('context_memberships')
       .select('role')
-      .eq('id', user.id)
+      .eq('user_id', user.id)
+      .eq('context_type', 'global')
       .single()
 
-    const role = profile?.role || 'patient'
+    const role = membership?.role || 'patient'
 
-    // Admin pages
-    if (request.nextUrl.pathname.startsWith('/admin') && role !== 'admin') {
-      const url = request.nextUrl.clone()
-      url.pathname = '/dashboard'
-      return NextResponse.redirect(url)
+    // Admin & Staff pages
+    if (request.nextUrl.pathname.startsWith('/admin')) {
+      if (role !== 'admin' && role !== 'staff' && role !== 'super_admin') {
+        const url = request.nextUrl.clone()
+        url.pathname = '/dashboard'
+        return NextResponse.redirect(url)
+      }
     }
 
     // Doctor pages
-    if (request.nextUrl.pathname.startsWith('/doctor') && role !== 'doctor' && role !== 'admin') {
-      const url = request.nextUrl.clone()
-      url.pathname = '/dashboard'
-      return NextResponse.redirect(url)
+    if (request.nextUrl.pathname.startsWith('/doctor')) {
+      if (role !== 'doctor' && role !== 'admin' && role !== 'super_admin') {
+        const url = request.nextUrl.clone()
+        url.pathname = '/dashboard'
+        return NextResponse.redirect(url)
+      }
     }
   }
 

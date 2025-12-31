@@ -1,7 +1,6 @@
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Search, Plus, Filter, MoreVertical, MapPin, Stethoscope, Mail, Phone, Edit, Trash2 } from 'lucide-react'
-import Link from 'next/link'
+import { Search, Plus, Filter,MapPin, Stethoscope, Mail, Phone, Edit, Trash2 } from 'lucide-react'
 
 export default function AdminDoctorsPage() {
   const doctors = [
@@ -42,7 +41,7 @@ export default function AdminDoctorsPage() {
            <CardContent className="p-0">
               <div className="overflow-x-auto">
                  <table className="w-full text-left">
-                    <thead className="bg-muted/30 text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em] border-b">
+                    <thead className="bg-muted/30 text-[10px] font-bold text-muted-foreground uppercase tracking-[0.2em] border-b p-0">
                        <tr>
                           <th className="p-8">Doctor Details</th>
                           <th className="p-8">Contact Information</th>

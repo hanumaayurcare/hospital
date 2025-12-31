@@ -48,7 +48,7 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-4">
-          <Link href="/login">
+          <Link href="/auth/login">
             <Button variant="ghost" size="icon" className="rounded-full hover:bg-primary/10 hover:text-primary">
               <User className="h-5 w-5" />
             </Button>
